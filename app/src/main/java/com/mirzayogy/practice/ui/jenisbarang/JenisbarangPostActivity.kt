@@ -19,6 +19,14 @@ class JenisbarangPostActivity : AppCompatActivity() {
         binding = ActivityJenisbarangPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val status = intent.getStringExtra("STATUS")
+        if(status=="TAMBAH"){
+            binding.etIdJenisbarang.visibility  = View.GONE
+        } else {
+            binding.etIdJenisbarang.visibility  = View.VISIBLE
+        }
+        binding.etNamajenisbarang.requestFocus()
+
         binding.progressBarJenisbarangPost.visibility = View.INVISIBLE
         binding.btSimpanJenisbarangPost.visibility = View.VISIBLE
         binding.btSimpanJenisbarangPost.setOnClickListener{
@@ -30,12 +38,16 @@ class JenisbarangPostActivity : AppCompatActivity() {
             binding.progressBarJenisbarangPost.visibility = View.VISIBLE
             binding.btSimpanJenisbarangPost.visibility = View.INVISIBLE
 
-            viewModel.create(jenisBarangData)
-            viewModel.createResponse.observe(this,{
-                binding.progressBarJenisbarangPost.visibility = View.INVISIBLE
-                binding.btSimpanJenisbarangPost.visibility = View.VISIBLE
-                Toast.makeText(this, it.body()?.message,Toast.LENGTH_SHORT).show()
-            })
+            if(status == "TAMBAH"){
+                viewModel.create(jenisBarangData)
+                viewModel.createResponse.observe(this,{
+                    binding.progressBarJenisbarangPost.visibility = View.INVISIBLE
+                    binding.btSimpanJenisbarangPost.visibility = View.VISIBLE
+                    Toast.makeText(this, it.body()?.message,Toast.LENGTH_SHORT).show()
+                    setResult(RESULT_OK)
+                    finish()
+                })
+            }
         }
     }
 }

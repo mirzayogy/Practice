@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mirzayogy.practice.R
@@ -29,8 +30,11 @@ class JenisbarangActivity : AppCompatActivity() {
         getListJenisbarang()
 
         binding.btTambahJenisbarang.setOnClickListener{
-            val intent = Intent(this, JenisbarangPostActivity::class.java)
-            startActivity(intent)
+            binding.btTambahJenisbarang.setOnClickListener{
+                val intent = Intent(this, JenisbarangPostActivity::class.java)
+                intent.putExtra("STATUS","TAMBAH")
+                getContract.launch(intent)
+            }
         }
 
     }
@@ -39,10 +43,17 @@ class JenisbarangActivity : AppCompatActivity() {
         viewModel.getJenisbarang()
         viewModel.response.observe(this, {
             binding.progressBarJenisbarang.visibility = View.INVISIBLE
+            list.clear()
             list.addAll(it.data)
             binding.rvJenisbarang.layoutManager = LinearLayoutManager(this)
             val listJenisbarangAdapter = ListJenisbarangAdapter(list)
             binding.rvJenisbarang.adapter = listJenisbarangAdapter
         })
+    }
+
+    private val getContract = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if(it.resultCode == RESULT_OK) {
+            getListJenisbarang()
+        }
     }
 }
