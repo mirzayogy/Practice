@@ -1,12 +1,17 @@
 package com.mirzayogy.practice.network
 
 import com.mirzayogy.practice.model.Jenisbarang
+import com.mirzayogy.practice.model.JenisbarangData
+import com.mirzayogy.practice.model.JenisbarangResponse
 import com.mirzayogy.practice.model.User
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 
 private const val BASE_URL = "http://10.0.2.2/praktikum-penjualan-api-starter/api/"
 
@@ -26,6 +31,9 @@ interface ApiService {
 
     @GET("jenisbarang/read.php")
     suspend fun getJenisbarang(): Jenisbarang
+
+    @POST("jenisbarang/create.php")
+    suspend fun create(@Body jenisbarangData: JenisbarangData): Response<JenisbarangResponse>
 }
 
 object Api {
