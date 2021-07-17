@@ -3,6 +3,8 @@ package com.mirzayogy.practice.ui.user
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.mirzayogy.practice.databinding.ItemRowUserBinding
 import com.mirzayogy.practice.model.UserData
 
@@ -12,6 +14,11 @@ class ListUserAdapter(private val listUser: ArrayList<UserData>) : RecyclerView.
             with(binding){
                 tvItemName.text = userData.first_name + " " + userData.last_name
                 tvItemEmail.text = userData.email
+
+                Glide.with(itemView.context)
+                    .load(userData.avatar)
+                    .apply(RequestOptions().override(55, 55))
+                    .into(ivItemAvatar)
             }
         }
     }
