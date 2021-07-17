@@ -9,7 +9,7 @@ import com.mirzayogy.practice.ui.user.UserViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val viewModel1: UserViewModel by lazy {
+    private val viewModel: UserViewModel by lazy {
         ViewModelProvider(this).get(UserViewModel::class.java)
     }
 
@@ -21,8 +21,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.progressBar.visibility = View.VISIBLE
 
-        viewModel1.getUsers()
-        viewModel1.response.observe(this, {
+        viewModel.getUsers()
+        viewModel.response.observe(this, {
             binding.progressBar.visibility = View.INVISIBLE
             binding.tvMainActivity.text = it.data[0].first_name
         })
